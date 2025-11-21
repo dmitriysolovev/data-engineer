@@ -20,15 +20,15 @@ You'll need an [Azure subscription](https://azure.microsoft.com/free) in which y
 1. Go to the resource group that it created, and notice that this resource group contains your Synapse workspace and Storage account for your data lake.
 1. Select the **Storage account** for your data lake named **xxlakestorage** 
 
-     ![Data lake navigation to container](/pics/4-0-lakestorage.png)
+     ![Data lake navigation to container](/labs/pics/4-0-lakestorage.png)
 
 1. Open Storage browser and navigate to **synapsedata** container
 
-    ![Select the files folder within the data lake container](/pics/4-1-storagebrowser.png)
+    ![Select the files folder within the data lake container](/labs/pics/4-1-storagebrowser.png)
 
 1. Within the **files folder** you'll note the **Authentication method:** is listed as ***Access key (Switch to Entra User Account)*** click on this to change to Entra User Account.
 
-    ![Change to Azure AD user account](/pics/4-2-switch-to-entraid.png)
+    ![Change to Azure AD user account](/labs/pics/4-2-switch-to-entraid.png)
 
 1. Ensure you still seeing all files in the container.
 
@@ -227,7 +227,7 @@ Now that you have some tables in your database, you can use them to work with th
 
 ### Provision Spark Pool
 1. In Synapse Studio navigate to the "Manage" section and select "Apache Spark Pools". Press "New" button
-![Spark Pool creation](/pics/4-3-create-spark-pool.png)
+![Spark Pool creation](/labs/pics/4-3-create-spark-pool.png)
 1. In the "New Apache Spark pool" panel select all mandatory parameters: 
 2. **Apache Spark pool name** - type a friendy name. For example, %Your Initials%pool
 2. **Node size family** - Memory optimized
@@ -236,7 +236,7 @@ Now that you have some tables in your database, you can use them to work with th
 2. **Number of nodes** - min 3 and max 3.
 2. **Dynamically allocate executors** - disabled
 1. Provision Spark pool.
-![Spark pool parameters](/pics/4-4-pool-params.png)
+![Spark pool parameters](/labs/pics/4-4-pool-params.png)
 
 ### Insert data using Spark
 
