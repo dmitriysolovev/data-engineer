@@ -4,7 +4,7 @@ lab:
     ilt-use: 'Suggested demo'
 ---
 
-# Provsion Azure Databricks
+# Provision Azure Databricks
 
 Azure Databricks is a Microsoft Azure-based version of the popular open-source Databricks platform.
 
@@ -111,31 +111,30 @@ As in many Spark environments, Databricks supports the use of notebooks to combi
 
 1. In the sidebar, use the **(+) New** link to create a **Notebook**.
 1. Change the default notebook name (**Untitled Notebook *[date]***) to **Explore products** and in the **Connect** drop-down list, select your cluster if it is not already selected. If the cluster is not running, it may take a minute or so to start.
-1. Download the [**products.csv**](https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/23/adventureworks/products.csv) file to your local computer, saving it as **products.csv**. Then, in the **Explore products** notebook, on the **File** menu, select **Upload data to DBFS**.
-1. In the **Upload Data** dialog box, note the **DBFS Target Directory** to where the file will be uploaded. Then select the **Files** area, and upload the **products.csv** file you downloaded to your computer. When the file has been uploaded, select **Next**
-1. In the **Access files from notebooks** pane, select the sample PySpark code and copy it to the clipboard. You will use it to load the data from the file into a DataFrame. Then select **Done**.
-1. In the **Explore products** notebook, in the empty code cell, paste the code you copied; which should look similar to this:
+1. Download the [**products.csv**](https://raw.githubusercontent.com/dmitriysolovev/data-engineer/main/labs/alldata/lab14/data/products.csv) file to your local computer, saving it as **products.csv**. Then, in the **Explore products** notebook, on the **File** menu, select **Upload data to volume**.
+1. In the **Upload Data** dialog box:
+    - In the **All catalogs** section select **dp203_databricks** (or another name similar to your databricks resourse name) and then select **Default**
+    ![Upload file dialog](./pics/databricks-uploadfile.png)
+    - Note there are no volumes yet. Press **Create volume** button.
+    - In the volume creation dialog type volumne name **labdata**, keep other parameters as is and press **Create** button.
+    ![Create volumne dialog](./pics/databricks-create-volume.png)
+    - Upload the **products.csv** file you downloaded to your computer. When the file has been uploaded, select **Next**
+1. In the **Upload summary** pane click on the uploaded file path.
+![Uploaded file](./pics/databricks-upload-summary.png)
+1. New browser tab appears. It's a **Catalog** view. Here you can explore all files and tables available in the Unity catalog. Please notice the directory path. It look like **/Volumes/dp203_databricks/default/labdata**. You'll use it to access data located in the catalog.
+![Databricks catalog](./pics/databricks-catalog.png)
+
+
+1. Return to the **Explore products** notebook and insert the following code to the empty code cell. Don't forget to adjust code if you used another names for Azure Databricks workspace and volume.
 
     ```python
-    df1 = spark.read.format("csv").option("header", "true").load("dbfs:/FileStore/shared_uploads/user@outlook.com/products.csv")
+    products_df = spark.read.format("csv").option("header", "true").load("/Volumes/dp203_databricks/default/labdata/products.csv")
+    display (products_df)
     ```
 
 1. Use the **&#9656; Run Cell** menu option at the top-right of the cell to run it, starting and attaching the cluster if prompted.
-1. Wait for the Spark job run by the code to complete. The code has created a *dataframe* object named **df1** from the data in the file you uploaded.
-1. Under the existing code cell, use the **+** icon to add a new code cell. Then in the new cell, enter the following code:
-
-    ```python
-    display(df1)
-    ```
-
-1. Use the **&#9656; Run Cell** menu option at the top-right of the new cell to run it. This code displays the contents of the dataframe, which should look similar to this:
-
-    | ProductID | ProductName | Category | ListPrice |
-    | -- | -- | -- | -- |
-    | 771 | Mountain-100 Silver, 38 | Mountain Bikes | 3399.9900 |
-    | 772 | Mountain-100 Silver, 42 | Mountain Bikes | 3399.9900 |
-    | ... | ... | ... | ... |
-
+1. Wait for the Spark job run by the code to complete. The code has created a *dataframe* object named **products** from the data in the file you uploaded and used *display* command to visualise it.
+![Dataframe visualisation](./pics/databricks-products-dataframe.png)
 1. Above the table of results, select **+** and then select **Visualization** to view the visualization editor, and then apply the following options:
     - **Visualization type**: Bar
     - **X Column**: Category
@@ -143,7 +142,7 @@ As in many Spark environments, Databricks supports the use of notebooks to combi
 
     Save the visualization and observe that it is displayed in the notebook, like this:
 
-    ![A bar chart showing product counts by category](./images/databricks-chart.png)
+    ![A bar chart showing product counts by category](./pics/databricks-chart.png)
 
 ## Create and query a table
 
@@ -153,10 +152,12 @@ While many data analysis are comfortable using languages like Python or Scala to
 2. Enter and run the following code in the new cell:
 
     ```python
-    df1.write.saveAsTable("products")
+    products_df.write.saveAsTable("products")
     ```
+3. The code above created a **Managed Delta table** in the **Default** schema. You can validate it by switching to the Catalog view. It's possible to use Spark code to create custom database schemas and a schema of relational tables that data analysts can use to explore data and generate analytical reports.
+![Catalog table view](./pics/databricks-catalog-table.png)
 
-3. When the cell has completed, add a new cell under it with the following code:
+4. Return to the notebook and add a new cell under it with the following code:
 
     ```sql
     %sql
@@ -167,16 +168,4 @@ While many data analysis are comfortable using languages like Python or Scala to
     ```
 
 4. Run the new cell, which contains SQL code to return the name and price of products in the *Touring Bikes* category.
-5. In the sidebar, select the **Catalog** link, and verify that the **products** table has been created in the default database schema (which is unsurprisingly named **default**). It's possible to use Spark code to create custom database schemas and a schema of relational tables that data analysts can use to explore data and generate analytical reports.
-
-## Delete Azure Databricks resources
-
-Now you've finished exploring Azure Databricks, you must delete the resources you've created to avoid unnecessary Azure costs and free up capacity in your subscription.
-
-1. Close the Azure Databricks workspace browser tab and return to the Azure portal.
-2. On the Azure portal, on the **Home** page, select **Resource groups**.
-3. Select the **dp203-*xxxxxxx*** resource group (not the managed resource group), and verify that it contains your Azure Databricks workspace.
-4. At the top of the **Overview** page for your resource group, select **Delete resource group**.
-5. Enter the **dp203-*xxxxxxx*** resource group name to confirm you want to delete it, and select **Delete**.
-
-    After a few minutes, your resource group and the managed workspace resource groups associated with it will be deleted.
+5. You've finished Azure DataBricks exploration. Navigate to the **Compute** section and terminate your cluster to avoid unnecessary charges.
