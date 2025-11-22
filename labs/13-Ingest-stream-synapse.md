@@ -25,25 +25,25 @@ In this exercise, you'll need an Azure Synapse Analytics workspace with access t
 You'll use a combination of a PowerShell script and an ARM template to provision these resources.
 
 1. Sign into the [Azure portal](https://portal.azure.com) at `https://portal.azure.com`.
-2. Use the **[\>_]** button to the right of the search bar at the top of the page to create a new Cloud Shell in the Azure portal, selecting a ***PowerShell*** environment and creating storage if prompted. The cloud shell provides a command line interface in a pane at the bottom of the Azure portal, as shown here:
+2. Use the **[\>_]** button to the right of the search bar at the top of the page to create a new Cloud Shell in the Azure portal, selecting a ***PowerShell*** environment and creating storage if prompted. The Cloud Shell provides a command line interface in a pane at the bottom of the Azure portal, as shown here:
 
-    ![Azure portal with a cloud shell pane](./images/cloud-shell.png)
+     ![Azure portal with a cloud shell pane](/labs/pics/cloudshell.png)
 
     > **Note**: If you have previously created a cloud shell that uses a *Bash* environment, use the the drop-down menu at the top left of the cloud shell pane to change it to ***PowerShell***.
 
-3. Note that you can resize the cloud shell by dragging the separator bar at the top of the pane, or by using the **&#8212;**, **&#9723;**, and **X** icons at the top right of the pane to minimize, maximize, and close the pane. For more information about using the Azure Cloud Shell, see the [Azure Cloud Shell documentation](https://docs.microsoft.com/azure/cloud-shell/overview).
+3. Cloud Shell can be resized by dragging the separator bar at the top of the pane, or by using the —, **&#9723;**, and **X** icons at the top right of the pane to minimize, maximize, and close the pane. For more information about using the Azure Cloud Shell, see the [Azure Cloud Shell documentation](https://docs.microsoft.com/azure/cloud-shell/overview).
 
-4. In the PowerShell pane, enter the following commands to clone the repo containing this exercise:
+4. In the PowerShell pane, enter the following commands to clone this repository:
 
-    ```
+    ```powershell
     rm -r dp-203 -f
-    git clone https://github.com/MicrosoftLearning/dp-203-azure-data-engineer dp-203
+    git clone https://github.com/dmitriysolovev/data-engineer.git dp-203
     ```
 
 5. After the repo has been cloned, enter the following commands to change to the folder for this exercise and run the **setup.ps1** script it contains:
 
-    ```
-    cd dp-203/Allfiles/labs/18
+    ```powershell
+    cd dp-203/labs/alldata/lab13
     ./setup.ps1
     ```
 
@@ -68,7 +68,7 @@ Let's start by ingesting a stream of data directly into a table in an Azure Syna
 6. In the cloud shell pane, enter the following command to run a client app that sends 100 simulated orders to Azure Event Hubs:
 
     ```
-    node ~/dp-203/Allfiles/labs/18/orderclient
+    node ~/dp-203/labs/alldata/lab13/orderclient
     ```
 
 7. Observe the order data as it is sent - each order consists of a product ID and a quantity.
@@ -153,7 +153,7 @@ Let's start by ingesting a stream of data directly into a table in an Azure Syna
 3. Re-open the cloud shell pane and re-run the following command to submit another 100 orders.
 
     ```
-    node ~/dp-203/Allfiles/labs/18/orderclient
+    node ~/dp-203/labs/alldata/lab13/orderclient
     ```
 
 4. While the order client app is running, switch to the Synapse Studio browser tab and view the query you previously ran to select the TOP 100 rows from the **dbo.FactOrder** table.
@@ -250,7 +250,7 @@ So far, you've seen how to use a Stream Analytics job to ingest messages from a 
 3. Re-open the cloud shell pane and re-run the following command to submit another 100 orders:
 
     ```
-    node ~/dp-203/Allfiles/labs/18/orderclient
+    node ~/dp-203/labs/alldata/lab13/orderclient
     ```
 
 4. When the order app has finished, minimize the cloud shell pane. Then switch to the Synapse Studio browser tab and on the **Data** page, on the **Linked** tab, expand **Azure Data Lake Storage Gen2** > **synapse*xxxxxxx* (primary - datalake*xxxxxxx*)** and select the **files (Primary)** container.
