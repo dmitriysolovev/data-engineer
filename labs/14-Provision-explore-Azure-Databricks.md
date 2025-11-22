@@ -1,7 +1,7 @@
 ---
 lab:
     title: 'Provision and explore Azure Databricks'
-    ilt-use: 'Suggested demo'
+    ilt-use: 'lab'
 ---
 
 # Provision Azure Databricks
@@ -78,7 +78,7 @@ Azure Databricks is a distributed processing platform that uses Apache Spark *cl
 
 In this exercise, you'll create a *single-node* cluster to minimize the compute resources used in the lab environment (in which resources may be constrained). In a production environment, you'd typically create a cluster with multiple worker nodes.
 
-> **Tip**: If you already have a cluster with a 13.3 LTS runtime version in your Azure Databricks workspace, you can use it to complete this exercise and skip this procedure.
+> **Tip**: If you already have a cluster with a 17.3 LTS runtime version in your Azure Databricks workspace, you can use it to complete this exercise and skip this procedure.
 
 1. In the Azure portal, browse to the **Databricks-lab** resource group that was created on provisioning Azure Databricks(or the resource group containing your existing Azure Databricks workspace)
 1. Select your Azure Databricks Service resource (named **dp203-databricks** if you followed the instructions).
@@ -168,4 +168,4 @@ While many data analysis are comfortable using languages like Python or Scala to
     ```
 
 4. Run the new cell, which contains SQL code to return the name and price of products in the *Touring Bikes* category.
-5. You've finished Azure DataBricks exploration. Navigate to the **Compute** section and terminate your cluster to avoid unnecessary charges.
+5. You've finished Azure Databricks exploration. Navigate to the **Compute** section and terminate your cluster to avoid unnecessary charges.
