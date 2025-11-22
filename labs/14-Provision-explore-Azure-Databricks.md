@@ -25,7 +25,7 @@ In this exercise, you'll use the Azure Portal to provision a new Azure Databrick
 3. In the search bar, type **Databricks** and press **Enter**.
 4. From the search results, select **Azure Databricks**.
 5. Click **Create**.
-![Search for Databricks](/pics/databricks-create-1.png)
+![Search for Databricks](./pics/databricks-create-1.png)
 6. In the **Basics** tab select the following settings:
     - **Subscription** – choose your Azure subscription.  
     - **Resource group** – select an existing one or click **Create new** and enter `Databricks-lab`.  
@@ -47,7 +47,7 @@ In this exercise, you'll use the Azure Portal to provision a new Azure Databrick
    - Networking and Encryption options  
 10. If everything looks correct, click **Create**.
 
-   ![Validate page](/pics/databricks-create-validation.png)
+   ![Validate page](./pics/databricks-create-validation.png)
 
 Azure will now deploy your Azure Databricks workspace. It might take 5-10 minutes. You shouldn't wait for completion, please proceed with the next lab section. 
 ---
@@ -90,7 +90,7 @@ In this exercise, you'll create a *single-node* cluster to minimize the compute 
 
 1. Press the **Compute** link in the sidebar. You'll see page with different compute types. As of now you don't have any compute resources provisioned.
 1. On the **All-Purpose Compute** tab press the **Create compute** button
-![Compute page in databricks](/pics/databricks-compute-page.png)
+![Compute page in databricks](./pics/databricks-compute-page.png)
 1. In the **New Cluster** page, create a new cluster with the following settings:
     - **Compute name**: *User Name's* cluster (the default cluster name)
     - **Policy**: Unrestricted
