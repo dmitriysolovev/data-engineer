@@ -2,7 +2,6 @@ Clear-Host
 write-host "Starting script at $(Get-Date)"
 
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-Install-Module -Name Az.Accounts -Force
 Install-Module -Name Az.Synapse -Force
 
 # Handle cases where the user has multiple subscriptions
@@ -70,7 +69,7 @@ while ($complexPassword -ne 1)
 
 # Register resource providers
 Write-Host "Registering resource providers...";
-$provider_list = "Microsoft.Synapse", "Microsoft.Sql", "Microsoft.Storage", "Microsoft.Compute"
+$provider_list = "Microsoft.Synapse", "Microsoft.EventHub", "Microsoft.StreamAnalytics", "Microsoft.Sql", "Microsoft.Storage", "Microsoft.Compute"
 foreach ($provider in $provider_list){
     $result = Register-AzResourceProvider -ProviderNamespace $provider
     $status = $result.RegistrationState
@@ -84,19 +83,28 @@ $resourceGroupName = "dp203-$suffix"
 
 # Choose a random region
 Write-Host "Finding an available region. This may take several minutes...";
-$delay = 0, 15, 30, 45, 60 | Get-Random
+$delay = 0, 30, 60, 90, 120 | Get-Random
 Start-Sleep -Seconds $delay # random delay to stagger requests from multi-student classes
-$preferred_list = "centralus","southcentralus","eastus2","northeurope","southeastasia","uksouth","westus","westus2"
+$preferred_list = "australiaeast","centralus","southcentralus","eastus2","northeurope","southeastasia","uksouth","westeurope","westus","westus2"
 $locations = Get-AzLocation | Where-Object {
     $_.Providers -contains "Microsoft.Synapse" -and
     $_.Providers -contains "Microsoft.Sql" -and
     $_.Providers -contains "Microsoft.Storage" -and
     $_.Providers -contains "Microsoft.Compute" -and
+    $_.Providers -contains "Microsoft.EventHub" -and
+    $_.Providers -contains "Microsoft.StreamAnalytics" -and
     $_.Location -in $preferred_list
 }
 $max_index = $locations.Count - 1
-$rand = (0..$max_index) | Get-Random
-$Region = $locations.Get($rand).Location
+# Start with preferred region if specified, otherwise choose one at random
+if ($args.count -gt 0 -And $args[0] -in $locations.Location)
+{
+    $Region = $args[0]
+}
+else {
+    $rand = (0..$max_index) | Get-Random
+    $Region = $locations.Get($rand).Location
+}
 
 # Test for subscription Azure SQL capacity constraints in randomly selected regions
 # (for some subsription types, quotas are adjusted dynamically based on capacity)
@@ -135,18 +143,22 @@ New-AzResourceGroup -Name $resourceGroupName -Location $Region | Out-Null
 $synapseWorkspace = "synapse$suffix"
 $dataLakeAccountName = "datalake$suffix"
 $sqlDatabaseName = "sql$suffix"
+$eventNsName = "events$suffix"
+$eventHubName = "eventhub$suffix"
 
-write-host "Creating $synapseWorkspace Synapse Analytics workspace in $resourceGroupName resource group..."
+write-host "Creating Azure resources in $resourceGroupName resource group..."
 write-host "(This may take some time!)"
 New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `
   -TemplateFile "setup.json" `
   -Mode Complete `
-  -uniqueSuffix $suffix `
   -workspaceName $synapseWorkspace `
   -dataLakeAccountName $dataLakeAccountName `
+  -uniqueSuffix $suffix `
   -sqlDatabaseName $sqlDatabaseName `
   -sqlUser $sqlUser `
   -sqlPassword $sqlPassword `
+  -eventNsName $eventNsName `
+  -eventHubName $eventHubName `
   -Force
 
 # Make the current user and the Synapse service principal owners of the data lake blob store
@@ -158,33 +170,24 @@ $id = (Get-AzADServicePrincipal -DisplayName $synapseWorkspace).id
 New-AzRoleAssignment -Objectid $id -RoleDefinitionName "Storage Blob Data Owner" -Scope "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Storage/storageAccounts/$dataLakeAccountName" -ErrorAction SilentlyContinue;
 New-AzRoleAssignment -SignInName $userName -RoleDefinitionName "Storage Blob Data Owner" -Scope "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Storage/storageAccounts/$dataLakeAccountName" -ErrorAction SilentlyContinue;
 
+# Prepare JavaScript EventHub client app
+write-host "Creating Event Hub client app..."
+npm install @azure/event-hubs@5.9.0 -s
+Update-AzConfig -DisplayBreakingChangeWarning $false | Out-Null
+$conStrings = Get-AzEventHubKey -ResourceGroupName $resourceGroupName -NamespaceName $eventNsName -AuthorizationRuleName "RootManageSharedAccessKey"
+$conString = $conStrings.PrimaryConnectionString
+$javascript = Get-Content -Path "setup.txt" -Raw
+$javascript = $javascript.Replace("EVENTHUBCONNECTIONSTRING", $conString)
+$javascript = $javascript.Replace("EVENTHUBNAME",$eventHubName)
+Set-Content -Path "orderclient.js" -Value $javascript
+
 # Create database
 write-host "Creating the $sqlDatabaseName database..."
-sqlcmd -S "$synapseWorkspace.sql.azuresynapse.net" -U $sqlUser -P $sqlPassword -d $sqlDatabaseName -I -i setup.sql
-
-# Load data
-write-host "Loading data..."
-Get-ChildItem "./data/*.txt" -File | Foreach-Object {
-    write-host ""
-    $file = $_.FullName
-    Write-Host "$file"
-    $table = $_.Name.Replace(".txt","")
-    bcp dbo.$table in $file -S "$synapseWorkspace.sql.azuresynapse.net" -U $sqlUser -P $sqlPassword -d $sqlDatabaseName -f $file.Replace("txt", "fmt") -q -k -E -b 5000
-}
-# Upload files
-write-host "Uploading files..."
-$storageAccount = Get-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $dataLakeAccountName
-$storageContext = $storageAccount.Context
-Get-ChildItem "./data/*.csv" -File | Foreach-Object {
-    write-host ""
-    $file = $_.Name
-    Write-Host $file
-    $blobPath = "data/$file"
-    Set-AzStorageBlobContent -File $_.FullName -Container "files" -Blob $blobPath -Context $storageContext
-}
+sqlcmd -S "$synapseWorkspace.sql.azuresynapse.net" -U $sqlUser -P $sqlPassword -d $sqlDatabaseName -I -l 30 -i setup.sql
 
 # Pause SQL Pool
 write-host "Pausing the $sqlDatabaseName SQL Pool..."
 Suspend-AzSynapseSqlPool -WorkspaceName $synapseWorkspace -Name $sqlDatabaseName -AsJob
+
 
 write-host "Script completed at $(Get-Date)"
