@@ -21,7 +21,7 @@ You'll need an [Azure subscription](https://azure.microsoft.com/free) in which y
 In this exercise, you'll use the Azure Portal to provision a new Azure Databricks workspace.
 1. In a web browser, sign into the [Azure portal](https://portal.azure.com) at `https://portal.azure.com`.
 2. At the top, click **Create a resource**.
-![Provision Resource](/labs/pics/1-0-create%20a%20resource.png)
+![Provision Resource](./pics/1-0-create%20a%20resource.png)
 3. In the search bar, type **Databricks** and press **Enter**.
 4. From the search results, select **Azure Databricks**.
 5. Click **Create**.
@@ -34,7 +34,7 @@ In this exercise, you'll use the Azure Portal to provision a new Azure Databrick
     - **Pricing Tier** – choose **Trial (Premium – 14-Days Free DBUs)** or **Premium** if trial is not available
     - Leave **Managed Resource Group name** empty (it will be generated automatically).
 
-![Databricks provisioning Basics tab](/labs/pics/databricks-create-basics.png)
+![Databricks provisioning Basics tab](./pics/databricks-create-basics.png)
 
 7. When finished, click **Review + create**.
 8. Wait for **Validation succeeded** to appear at the top.  
@@ -57,13 +57,13 @@ Azure will now deploy your Azure Databricks workspace. It might take 5-10 minute
 In this section, you'll validate if your Azure subscription has a sufficient cores quota and request an increase if necessary.
 1. In a web browser, sign into the [Azure portal](https://portal.azure.com) at `https://portal.azure.com`.
 2. In the search bar type "Quotas" and click on the "Quotas" in the "Services" section of the search result
-![Quotas search](/labs/pics/quotas-search.png)
+![Quotas search](./pics/quotas-search.png)
 3. On the "Quotas overview" page click on the "Compute" button.
-![Quotas overview](/labs/pics/quotas-page.png)
+![Quotas overview](./pics/quotas-page.png)
 4. At the top, ensure the **Region** filter is set to **UK South**.
 5. In the search box, type **Standard DS** to filter only DS-series vCPUs.
 6. Locate **Standard DSv2 Family vCPUs** in the table.
-![Quotas in the region](/labs/pics/quotas-find-cpu.png)
+![Quotas in the region](./pics/quotas-find-cpu.png)
 7. If it shows less than 20 total cores - request qouta increase up to 20 cores:
     - On the right side, under **Adjustable**, click the **pencil** icon (✏️) next to **Yes**.
     - Type 20 in the new limit

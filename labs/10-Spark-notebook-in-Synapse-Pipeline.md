@@ -23,7 +23,7 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
 1. Sign into the [Azure portal](https://portal.azure.com) at `https://portal.azure.com`.
 2. Use the **[\>_]** button to the right of the search bar at the top of the page to create a new Cloud Shell in the Azure portal, selecting a ***PowerShell*** environment and creating storage if prompted. The Cloud Shell provides a command line interface in a pane at the bottom of the Azure portal, as shown here:
 
-    ![Azure portal with a cloud shell pane](/labs/pics/cloudshell.png)
+    ![Azure portal with a cloud shell pane](./pics/cloudshell.png)
 
     > **Note**: If you have previously created a cloud shell that uses a *Bash* environment, use the the drop-down menu at the top left of the cloud shell pane to change it to ***PowerShell***.
 
@@ -68,7 +68,7 @@ Before automating a data transformation process with a notebook, it can be usefu
     ![download notebook file from GitHub](./images/select-download-notebook.png)
 
 10 Then on **Develop** page, expand **Notebooks** click on the + Import options
-    ![Spark Notebook import](/labs/pics/spark-notebook-import.png)
+    ![Spark Notebook import](./pics/spark-notebook-import.png)
     
         
 1. Select the file you just downloaded and saved as **Spark Transfrom.ipynb**.
@@ -108,7 +108,7 @@ Now that you understand the transformation process, you're ready to automate it 
 2. In the **Properties** pane for your new pipeline, change its name from **Pipeline1** to **Transform Sales Data**. Then use the **Properties** button above the **Properties** pane to hide it.
 3. In the **Activities** pane, expand **Synapse**; and then drag a **Notebook** activity to the pipeline design surface as shown here:
 
-    ![Screenshot of a pipeline containing a Notebook activity.](/labs/pics/notebook-pipeline.png)
+    ![Screenshot of a pipeline containing a Notebook activity.](./pics/notebook-pipeline.png)
 
 4. 
 5. In the **General** tab for the Notebook activity, change its name to **Run Spark Transform**.
@@ -123,7 +123,7 @@ Now that you understand the transformation process, you're ready to automate it 
 
     Your pipeline pane should look similar to this:
 
-    ![Screenshot of a pipeline containing a Notebook activity with settings.](/labs/pics/notebook-pipeline-settings.png)
+    ![Screenshot of a pipeline containing a Notebook activity with settings.](./pics/notebook-pipeline-settings.png)
 
 ### Publish and run the pipeline
 

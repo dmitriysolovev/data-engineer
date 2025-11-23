@@ -23,7 +23,7 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
 1. Sign into the [Azure portal](https://portal.azure.com) at `https://portal.azure.com`.
 2. Use the **[\>_]** button to the right of the search bar at the top of the page to create a new Cloud Shell in the Azure portal, selecting a ***PowerShell*** environment and creating storage if prompted. The Cloud Shell provides a command line interface in a pane at the bottom of the Azure portal, as shown here:
 
-    ![Azure portal with a cloud shell pane](/labs/pics/cloudshell.png)
+    ![Azure portal with a cloud shell pane](./pics/cloudshell.png)
 
     > **Note**: If you have previously created a cloud shell that uses a *Bash* environment, use the the drop-down menu at the top left of the cloud shell pane to change it to ***PowerShell***.
 
@@ -80,7 +80,7 @@ To load the data in the text file into the database table, you will implement an
 2. In the **Properties** pane for your new pipeline, change its name from **Pipeline1** to **Load Product Data**. Then use the **Properties** button above the **Properties** pane to hide it.
 3. In the **Activities** pane, expand **Move & transform**; and then drag a **Data flow** to the pipeline design surface as shown here:
 
-    ![Screenshot of a pipeline with a data flow activity.](/labs/pics/dataflow.png)
+    ![Screenshot of a pipeline with a data flow activity.](./pics/dataflow.png)
 
 4. Under the pipeline design surface, in the **General** tab, set the **Name** property to **LoadProducts**.
 5. On the **Settings** tab, at the bottom of the list of settings, expand **Staging** and set the following staging settings:
@@ -92,7 +92,7 @@ To load the data in the text file into the database table, you will implement an
 1. At the top of the **Settings** tab for the **LoadProducts** data flow, for the **Data flow** property, select **+ New**.
 2. In the **Properties** pane for the new data flow design surface that opens, set the **Name** to **LoadProductsData** and then hide the **Properties** pane. The data flow designer should look like this:
 
-    ![Screenshot of an empty data flow activity.](/labs/pics/empty-dataflow.png)
+    ![Screenshot of an empty data flow activity.](./pics/empty-dataflow.png)
 
 ### Add sources
 
@@ -147,7 +147,7 @@ To load the data in the text file into the database table, you will implement an
     - **Discontinued**: boolean
 5. Verify that your data flow contains two sources, as shown here:
 
-    ![Screenshot of a data flow with two sources.](/labs/pics/dataflow_sources.png)
+    ![Screenshot of a data flow with two sources.](./pics/dataflow_sources.png)
 
 ### Add a Lookup
 
@@ -163,7 +163,7 @@ To load the data in the text file into the database table, you will implement an
     - **Lookup conditions**: ProductID == ProductAltKey
 3. Verify that your data flow looks like this:
 
-    ![Screenshot of a data flow with two sources and a lookup.](/labs/pics/dataflow_lookup.png)
+    ![Screenshot of a data flow with two sources and a lookup.](./pics/dataflow_lookup.png)
 
     The lookup returns a set of columns from *both* sources, essentially forming an outer join that matches the **ProductID** column in the text file to the **ProductAltKey** column in the data warehouse table. When a product with the alternate key already exists in the table, the dataset will include the values from both sources. When the product dos not already exist in the data warehouse, the dataset will contain NULL values for the table columns.
 
@@ -179,7 +179,7 @@ To load the data in the text file into the database table, you will implement an
         - UpsertIf: `not(isNull(ProductKey))`
 3. verify that the data flow looks like this:
 
-    ![Screenshot of a data flow with two sources, a lookup, and an alter row.](/labs/pics/dataflow_alterrow.png)
+    ![Screenshot of a data flow with two sources, a lookup, and an alter row.](./pics/dataflow_alterrow.png)
 
     The alter row step configures the kind of load action to perform for each row. Where there's no existing row in the table (the **ProductKey** is NULL), the row from the text file will be inserted. Where there's already a row for the product, an *upsert* will be performed to update the existing row. This configuration essentially applies a *type 1 slowly changing dimension update*.
 
@@ -205,7 +205,7 @@ To load the data in the text file into the database table, you will implement an
     - ProductsText@Discontinued: Discontinued
 5. Verify that your data flow looks like this:
 
-    ![Screenshot of a data flow with two sources, a lookup, an alter row, and a sink.](/labs/pics/dataflow-sink.png)
+    ![Screenshot of a data flow with two sources, a lookup, an alter row, and a sink.](./pics/dataflow-sink.png)
 
 ## Debug the Data Flow
 

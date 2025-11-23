@@ -21,7 +21,7 @@ In this exercise, you'll synchronize data from an Azure SQL Database resource to
 1. Sign into the [Azure portal](https://portal.azure.com) at `https://portal.azure.com`.
 2. Use the **[\>_]** button to the right of the search bar at the top of the page to create a new Cloud Shell in the Azure portal, selecting a ***PowerShell*** environment and creating storage if prompted. The Cloud Shell provides a command line interface in a pane at the bottom of the Azure portal, as shown here:
 
-     ![Azure portal with a cloud shell pane](/labs/pics/cloudshell.png)
+     ![Azure portal with a cloud shell pane](./pics/cloudshell.png)
 
     > **Note**: If you have previously created a cloud shell that uses a *Bash* environment, use the the drop-down menu at the top left of the cloud shell pane to change it to ***PowerShell***.
 
@@ -59,7 +59,7 @@ Before you can set up Azure Synapse Link for your Azure SQL Database, you must e
 
 2. In the page for your Azure SQL Server resource, in the pane on the left, in the **Security** section (near the bottom), select **Identity**. Then under **System assigned managed identity**, set the **Status** option to **On**. Then use the **&#128427; Save** icon to save your configuration change.
 
-    ![Screenshot of the Azure SQL server Identity page in the Azure portal.](/labs/pics/sqldb-identity.png)
+    ![Screenshot of the Azure SQL server Identity page in the Azure portal.](./pics/sqldb-identity.png)
 
 3. In the pane on the left, in the **Security** section, select **Networking**. Then, under **Firewall rules**, select the exception to **Allow Azure services and resources to access this server**.
 
@@ -73,7 +73,7 @@ Before you can set up Azure Synapse Link for your Azure SQL Database, you must e
 
 5. Use the **Save** button to save your configuration change:
 
-    ![Screenshot of the Azure SQL server Networking page in the Azure portal.](/labs/pics/sqldb-network.png)
+    ![Screenshot of the Azure SQL server Networking page in the Azure portal.](./pics/sqldb-network.png)
 
 ## Explore the transactional database
 

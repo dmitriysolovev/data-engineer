@@ -8,15 +8,15 @@ Please use Azure credentials dedicated for your lab environment. Estimated time 
 
 1. Open the **Azure Portal**.
 2. At the top, click **Create a resource**.
-![Provision Resource](/labs/pics/1-0-create%20a%20resource.png)
+![Provision Resource](./pics/1-0-create%20a%20resource.png)
 ---
 
 ## 2. Search for Synapse
-![Search for Synapse](/labs/pics/1-1-search-synapse.png)
+![Search for Synapse](./pics/1-1-search-synapse.png)
 1. In the search bar, type **Synapse** and press **Enter**.
 2. From the search results, select **Azure Synapse Analytics**.
 3. Click **Create**.
-![Create Synapse](/labs/pics/1-2-synapse-create.png)
+![Create Synapse](./pics/1-2-synapse-create.png)
 
 ---
 
@@ -25,7 +25,7 @@ Please use Azure credentials dedicated for your lab environment. Estimated time 
 ### Resource Group
 - Create a new Resource Group.  
   Example: **Labs‑RG**
-![Create new RG](/labs/pics/1-3-synapse-create-rg.png)
+![Create new RG](./pics/1-3-synapse-create-rg.png)
 ### Managed Resource Group
 - Leave **Managed Resource Group name** empty.
 
@@ -49,7 +49,7 @@ Please use Azure credentials dedicated for your lab environment. Estimated time 
 
    > **Assign myself the Storage Blob Data Contributor role on the Data Lake Storage Gen2 account to interactively query it in the workspace**
 
-![Synapse parameters](/labs/pics/1-6-synapse-params-completed.png)
+![Synapse parameters](./pics/1-6-synapse-params-completed.png)
 ---
 
 ## 4. Configure Security
@@ -60,7 +60,7 @@ Please use Azure credentials dedicated for your lab environment. Estimated time 
    > **Use both local and Microsoft Entra ID authentication**
 
 3. Enter a strong SQL admin password and store it safely.
-![Security tab Synapse](/labs/pics/1-7-synapse-security.png)
+![Security tab Synapse](./pics/1-7-synapse-security.png)
 ---
 
 ## 5. Configure Networking
@@ -69,7 +69,7 @@ Please use Azure credentials dedicated for your lab environment. Estimated time 
 2. Review network options.
 3. Ensure connections from **all IP addresses are allowed**.
 4. Click **Review and create**.
-![Networking tab Synapse](/labs/pics/1-7-synapse-networking.png)
+![Networking tab Synapse](./pics/1-7-synapse-networking.png)
 ---
 
 ## 6. Deploy Workspace

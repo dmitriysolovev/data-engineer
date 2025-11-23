@@ -14,17 +14,17 @@ Please ensure you completed exercise **Provision Synapse Analytics Workspace**
 *Synapse Studio* is a web-based portal in which you can manage and work with the resources in your Azure Synapse Analytics workspace.
 
 1. In the Azure portal navigate to the **Labs-RG** resource group that was created as a part of previous exercise, and notice that this resource group contains your Synapse workspace and a Storage account for your data lake.
-![Provision Resource](/labs/pics/2-1-rsgroup.png)
+![Provision Resource](./pics/2-1-rsgroup.png)
 2. Select your Synapse workspace, and in its **Overview** page, in the **Open Synapse Studio** card, select **Open** to open Synapse Studio in a new browser tab. Synapse Studio is a web-based interface that you can use to work with your Synapse Analytics workspace.
-![Synapse overview page](/labs/pics/2-2-synapse-overview.png)
+![Synapse overview page](./pics/2-2-synapse-overview.png)
 3. On the left side of Synapse Studio, use the **&rsaquo;&rsaquo;** icon to expand the menu - this reveals the different pages within Synapse Studio that you'll use to manage resources and perform data analytics tasks, as shown here:
 
-    ![Image showing the expanded Synapse Studio menu to manage resources and perform data analytics tasks](/labs/pics/2-3-synapse-studio.png)
+    ![Image showing the expanded Synapse Studio menu to manage resources and perform data analytics tasks](./pics/2-3-synapse-studio.png)
 
 4. View the **Data** page, and note that there are two tabs containing data sources:
     - A **Workspace** tab containing databases defined in the workspace (including dedicated SQL databases and Data Explorer databases). As of now it’s empty.
     - A **Linked** tab containing data sources that are linked to the workspace, including Azure Data Lake storage.
-![linked data sources](/labs/pics/2-4-data-linked.png)
+![linked data sources](./pics/2-4-data-linked.png)
 5. View the **Develop** page, which is currently empty. This is where you can define scripts and other assets used to develop data processing solutions.
 6. View the **Integrate** page, which is also empty. You use this page to manage data ingestion and integration assets; such as pipelines to transfer and transform data between data sources.
 7. View the **Monitor** page. This is where you can observe data processing jobs as they run and view their history.
@@ -39,7 +39,7 @@ One of the key tasks you can perform with Azure Synapse Analytics is to define *
 ### Use the Copy Data task to create a pipeline
 
 1. In Synapse Studio, on the **Home** page, select **Ingest** to open the **Copy Data** tool
-![copy data tool](/labs/pics/2-5-copy-data-tool.png)
+![copy data tool](./pics/2-5-copy-data-tool.png)
 
 2. In the Copy Data tool, on the **Properties** step, ensure that **Built-in copy task** and **Run once now** are selected, and click **Next >**.
 3. On the **Source** step, in the **Dataset** substep, select the following settings:
@@ -97,7 +97,7 @@ One of the key tasks you can perform with Azure Synapse Analytics is to define *
 
 1. On the **Data** page, select the **Linked** tab and expand the ***xx*synapselabs- (Primary) *xx*lakestorage** container hierarchy until you see the **synapsedata** file storage for your Synapse workspace. Then select the file storage to verify that a folder named **product_data** containing a file named **products.csv** has been copied to this location, as shown here:
 
-    ![Image showing Synapse Studio expanded Azure Data Lake Storage hierarchy with the file storage for your Synapse workspace](/labs/pics/2-6-products-data.png)
+    ![Image showing Synapse Studio expanded Azure Data Lake Storage hierarchy with the file storage for your Synapse workspace](./pics/2-6-products-data.png)
 
 2. Right-click the **products.csv** data file and select **Preview** to view the ingested data. Then close the preview.
 
@@ -197,7 +197,7 @@ Now that you've ingested some data into your workspace, you can use Synapse Anal
 
     The resulting chart should resemble this:
 
-    ![Image showing the product count chart view](/labs/pics/2-7-products-chart.png)
+    ![Image showing the product count chart view](./pics/2-7-products-chart.png)
 
 13. Lab completed
 

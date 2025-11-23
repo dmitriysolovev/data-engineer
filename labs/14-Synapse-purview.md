@@ -21,25 +21,25 @@ You'll need an [Azure subscription](https://azure.microsoft.com/free) in which y
 In this exercise, you'll use Microsoft Purview to track assets and data lineage in an Azure Synapse Analytics workspace. You'll start by using a script to provision these resources in your Azure subscription.
 
 1. Sign into the [Azure portal](https://portal.azure.com) at `https://portal.azure.com`.
-2. Use the **[\>_]** button to the right of the search bar at the top of the page to create a new Cloud Shell in the Azure portal, selecting a ***PowerShell*** environment and creating storage if prompted. The cloud shell provides a command line interface in a pane at the bottom of the Azure portal, as shown here:
+2. Use the **[\>_]** button to the right of the search bar at the top of the page to create a new Cloud Shell in the Azure portal, selecting a ***PowerShell*** environment and creating storage if prompted. The Cloud Shell provides a command line interface in a pane at the bottom of the Azure portal, as shown here:
 
-    ![Azure portal with a cloud shell pane](./images/cloud-shell.png)
+     ![Azure portal with a cloud shell pane](./pics/cloudshell.png)
 
     > **Note**: If you have previously created a cloud shell that uses a *Bash* environment, use the the drop-down menu at the top left of the cloud shell pane to change it to ***PowerShell***.
 
-3. Note that you can resize the cloud shell by dragging the separator bar at the top of the pane, or by using the **&#8212;**, **&#9723;**, and **X** icons at the top right of the pane to minimize, maximize, and close the pane. For more information about using the Azure Cloud Shell, see the [Azure Cloud Shell documentation](https://docs.microsoft.com/azure/cloud-shell/overview).
+3. Cloud Shell can be resized by dragging the separator bar at the top of the pane, or by using the —, **&#9723;**, and **X** icons at the top right of the pane to minimize, maximize, and close the pane. For more information about using the Azure Cloud Shell, see the [Azure Cloud Shell documentation](https://docs.microsoft.com/azure/cloud-shell/overview).
 
-4. In the PowerShell pane, enter the following commands to clone this repo:
+4. In the PowerShell pane, enter the following commands to clone this repository:
 
-    ```
+    ```powershell
     rm -r dp-203 -f
-    git clone https://github.com/MicrosoftLearning/dp-203-azure-data-engineer dp-203
+    git clone https://github.com/dmitriysolovev/data-engineer.git dp-203
     ```
 
-5. After the repo has been cloned, enter the following commands to change to the folder for this lab and run the **setup.ps1** script it contains:
+5. After the repo has been cloned, enter the following commands to change to the folder for this exercise and run the **setup.ps1** script it contains:
 
-    ```
-    cd dp-203/Allfiles/labs/22
+    ```powershell
+    cd dp-203/labs/alldata/lab14
     ./setup.ps1
     ```
 
@@ -55,18 +55,8 @@ In this exercise, you'll use Microsoft Purview to track assets and data lineage 
 
 ## Explore your Azure Synapse Analytics workspace
 
-The script has created an Azure Synapse Analytics workspace, which you can explore and manage using the Azure Synapse Studio web-based interface. The workspace includes a dedicated SQL pool, which has been paused to avoid incurring unnecessary costs. You're going to need it shortly, so now is a good time to resume it.
+The script has created an Azure Synapse Analytics workspace, which you can explore and manage using the Azure Synapse Studio web-based interface. The workspace includes a dedicated SQL pool, which is active. 
 
-1. In the Azure portal, on the page for your Synapse Analytics workspace, view the **Overview** tab. Then in the **Open Synapse Studio** tile, use the link to open Azure Synapse Studio in a new browser tab - signing in if prompted.
-
-    >**Tip**: Alternatively, you can open Azure Synapse Studio by browsing directly to https://web.azuresynapse.net in a new browser tab.
-
-2. On the left side of Synapse Studio, use the **&rsaquo;&rsaquo;** icon to expand the menu - this reveals the different pages within Synapse Studio.
-3. On the **Manage** page, on the **SQL pools** tab, select the row for the **sql*xxxxxxx*** dedicated SQL pool and use its **&#9655;** icon to start it; confirming that you want to resume it when prompted.
-
-    ![A screenshot of the SQL pools page in Synapse Studio.](./images/resume-sql-pool.png)
-
-4. Resuming the pool can take a few minutes. You can use the **&#8635; Refresh** button to check its status periodically. The status will show as **Online** when it is ready. While you're waiting, continue the steps below to create a Lake Database - then come back to the **Manage** page to ensure the dedicated SQL pool in online.
 
 ## Create lake database
 
@@ -74,31 +64,36 @@ Lake databases store data in a data lake on Azure Storage. You can use Parquet, 
 
 Lake databases are accessible in Synapse SQL serverless SQL pool and Apache Spark, letting users separate storage from compute. The metadata of the lake database makes it easy for different engines to provide an integrated experience and use extra information (like relationships) that wasn’t supported on the data lake.
 
-1. In Azure Synapse Studio, view the **Data** page, and in the **Workspace** tab, expand **SQL database** to see the databases in your workspace. These should include the **sql*xxxxxxx*** dedicated SQL pool database you just resumed.
-2. In the **Data** pane, in the **+** menu, select **Lake database** to add a new Lake database to the workspace.
+1. In the Azure portal, on the page for your Synapse Analytics workspace, view the **Overview** tab. Then in the **Open Synapse Studio** tile, use the link to open Azure Synapse Studio in a new browser tab - signing in if prompted.
+
+    >**Tip**: Alternatively, you can open Azure Synapse Studio by browsing directly to https://web.azuresynapse.net in a new browser tab.
+
+2. In Azure Synapse Studio, view the **Data** page, and in the **Workspace** tab, expand **SQL database** to see the databases in your workspace. These should include the **sql*xxxxxxx*** dedicated SQL pool database you just resumed.
+3. In the **Data** pane, in the **+** menu, select **Lake database** to add a new Lake database to the workspace.
 
     > **Note**: You will receive a prompt **Azure Synapse Database Template Terms of Use** which you should read and understand prior to clicking the **OK** button.
 
-3. In the **Properties** pane for the new Lake database (on the right), set the following properties:
+4. In the **Properties** pane for the new Lake database (on the right), set the following properties:
     - **Name**: lakedb
     - **Input folder**: *Browse to **root/files/data***
+    - **Data format**: Delimited Text
 
     >**Tip**: You may see an error when opening the **Input folder**, just double-click on the root folder and work your way down to data before clicking **OK** if that's the case.
 
-4. In the **Tables** pane on the left, in the **+ Table** menu, select ***From data lake***. Then add a new table with the following properties:
+5. In the **Tables** pane on the left, in the **+ Table** menu, select ***From data lake***. Then add a new table with the following properties:
     - ***External table name***: Products
     - ***Linked service***: synapse*xxxxxxx*-WorkspaceDefaultStorage(datalake*xxxxxxx*)
     - ***Input file or folder***: files/data/products.csv
 
-5. Click **Continue** and in the **New external table** pane, select the First Row option to ***infer column names*** and click **create**.
+6. Click **Continue** and in the **New external table** pane, select the First Row option to ***infer column names*** and click **create**.
 
-6. Select **Publish** at the top of the lake database window to save the changes
-7. In the **Data** pane, expand the **Lake database** section, the expand **lakedb**, then in the **Products** table's **...** menu, select **Create SQL Script** > ***Top 100 rows***.
-8. Ensure that the **Connect to** is listed as **Built-in** and the refresh the **Use database** list and select **lakedb**.
+7. Select **Publish** at the top of the lake database window to save the changes
+8. In the **Data** pane, expand the **Lake database** section, the expand **lakedb**, then in the **Products** table's **...** menu, select **Create SQL Script** > ***Top 100 rows***.
+9. Ensure that the **Connect to** is listed as **Built-in** and the refresh the **Use database** list and select **lakedb**.
 
-![first external query in lake database](./images/lakedb-first-external-query.png)
+![first external query in lake database](./pics/lakedb-first-external-query.png)
 
-9. Use the **Run** button to run the query and view the data within the **Products** table.
+10. Use the **Run** button to run the query and view the data within the **Products** table.
 
 ## Add and configure a Microsoft Purview Service Account
 
@@ -130,20 +125,22 @@ Microsoft Purview is configured to use a managed identity. In order to catalog d
     - A Synapse workspace with a name similar to **synapse*xxxxxxx***.
 2. Open the **datalake*xxxxxxx*** storage account, and on its **Access Control (IAM)** page, view the **Role Assignments** tab; as shown here:
 
-    ![A screenshot of the Role Assignments tab for a storage account.](./images/storage-roles.png)
+    ![A screenshot of the Role Assignments tab for a storage account.](./pics/storage-roles.png)
 
 3. On the **+ Add** button menu, select **Add role assignment**. 
-4. In the **Add role assigmnent** page, on the **Role** tab, search for "storage blob" and select the **Storage Blob Data Reader** role. Then select **Next** to move to the **Members** tab:
+4. In the **Add role assigmnent** page, on the **Role** tab -> **Job function roles**, search for "storage blob" and select the **Storage Blob Data Reader** role. Then select **Next** to move to the **Members** tab:
 
-    ![A screenshot of the Add role assignment Role tab.](./images/storage-role-assignment.png)
+    ![A screenshot of the Add role assignment Role tab.](./pics/storage-role-assignment.png)
 
 5. On the **Members** tab, in the **Assign access to** list, select **Managed identity**; and then, under **Members**, select **Select members**.
 6. In the **Select managed identities** pane, in the **Managed identity** list, select **Microsoft Purview account (*n*)** and select your Microsoft Purview account, which should have a name similar to **purview*xxxxxxx***; and use the **Select** button to add this account to the role assignment:
 
-    ![A screenshot of the Select managed identities tab.](./images/storage-role-members.png)
+    ![A screenshot of the Select managed identities tab.](./pics/storage-role-members-purview.png)
 
 7. Use the **Review + Assign** button to complete the role assignment, which makes the **purview*xxxxxxx*** account used by the managed identity for your Microsoft Purview resource a member of the **Storage Blob Data Reader** role for your storage account.
 8. In the Azure portal, return to the **dp203-*xxxxxxx*** resource group and open the **synapse*xxxxxxx*** Synapse Analytics workspace. Then, on its **Access Control (IAM)** page, add a role assignment to make the **purview*xxxxxxx*** managed identity account a member of the **Reader** role in the workspace.
+9. Open the **datalake*xxxxxxx*** storage account, and on its **Access Control (IAM)** page, view the **Role Assignments** tab. Ensure the purview account has **Reader** and **Storage Blob Data Reader** aggignments:
+    ![A screenshot of the Purview account Role Assignments tab for a storage account.](./pics/storage-purview-roles-check.png)
 
 ### Configure database permissions for Microsoft Purview
 
@@ -154,29 +151,32 @@ Your Azure Synapse Analytics workspace includes databases in both *serverless* a
     - A dedicated SQL pool database named **sql*xxxxxxx***.
 
 2. Select the **lakedb** database, and then in its **...** menu, select **New SQL script** > **Empty script** to open a new **SQL script 1** pane. You can use the **Properties** button (which looks similar to **&#128463;<sub>*</sub>**) on the right end of the toolbar to hide the **Properties** pane and see the script pane more easily.
-7. In the **SQL script 1** pane, enter the following SQL code, replacing all instances of ***purviewxxxxxxx*** with the managed identity name for your Microsoft Purview account:
+3. In the **SQL script 1** pane, enter the following SQL code, replacing all instances of ***purview-xxxxxxx*** with the managed identity name for your Microsoft Purview account:
 
     ```sql
-    CREATE LOGIN [purviewxxxxxxx] FROM EXTERNAL PROVIDER;
+    CREATE LOGIN [purview-xxxxxxx] FROM EXTERNAL PROVIDER;
     GO
 
-    CREATE USER [purviewxxxxxxx] FOR LOGIN [purviewxxxxxxx];
+    CREATE USER [purview-xxxxxxx] FOR LOGIN [purview-xxxxxxx];
     GO
 
-    ALTER ROLE db_datareader ADD MEMBER [purviewxxxxxxx];
+    ALTER ROLE db_datareader ADD MEMBER [purview-xxxxxxx];
     GO
     ```
+    ![A screenshot of the script granting access to purbiew account to the lakedb](./pics/purview-lakedb-user.png)
 
-3. Use the **&#9655; Run** button to run the script, which creates a login and a user in the **lakedb** user for the managed identity used by Microsoft Purview, and adds the user to the **db_datareader** role in the **lakedb** database.
-4. Create a new empty script for the **sql*xxxxxxx*** decicated SQL pool database, and use it to run the following SQL code (replacing ***purviewxxxxxxx*** with the managed identity name for your Microsoft Purview account); which creates a user in the dedicated SQL pool for the managed identity used by Microsoft Purview, and adds it to the **db_datareader** role in the **sql*xxxxxxx*** database.
+4. Use the **&#9655; Run** button to run the script, which creates a login and a user in the **lakedb** user for the managed identity used by Microsoft Purview, and adds the user to the **db_datareader** role in the **lakedb** database.
+5. Create a new empty script for the **sql*xxxxxxx*** decicated SQL pool database, and use it to run the following SQL code (replacing ***purview-xxxxxxx*** with the managed identity name for your Microsoft Purview account); which creates a user in the dedicated SQL pool for the managed identity used by Microsoft Purview, and adds it to the **db_datareader** role in the **sql*xxxxxxx*** database.
 
     ```sql
-    CREATE USER [purviewxxxxxxx] FROM EXTERNAL PROVIDER;
+    CREATE USER [purview-xxxxxxx] FROM EXTERNAL PROVIDER;
     GO
 
-    EXEC sp_addrolemember 'db_datareader', [purviewxxxxxxx];
+    EXEC sp_addrolemember 'db_datareader', [purview-xxxxxxx];
     GO
     ```
+    ![A screenshot of the script granting access to purbiew account to the dedicated pool database](./pics/purview-dedicated-pool-user.png)
+6. Navigate to the Azure Synapse Analytics overview page and grant **Reader** permissions to the Purview account like you did for the storage account.
 
 ## Use Microsoft Purview to scan data resources
 
@@ -187,14 +187,14 @@ Now that you've configured the required access for Microsoft Purview to scan the
 With Microsoft Purview, you can catalog data assets across your data estate - including data sources in an Azure Synapse Workspace. The workspace you just deployed includes a data lake (in an Azure Data Lake Storage Gen2 account), a lake database, and a data warehouse in a dedicated SQL pool.
 
 1. Switch back to the browser tab containing the Azure portal, and view the page for the **dp203-*xxxxxxx*** resource group.
-2. Open the **purview*xxxxxxx*** Microsoft Purview account, and on its **Overview** page, use the link to open the **Microsoft Purview Governance Portal** in a  new browser tab - signing in if prompted.
+2. Open the **purview*xxxxxxx*** Microsoft Purview account, and on its **Overview** page, use the link to open the **Microsoft Purview Governance Portal (new)** in a  new browser tab - signing in if prompted.
 
-    >**Tip**: Alternatively, you can browse directly to https://web.purview.azure.com in a new browser tab.
+    >**Tip**: Alternatively, you can browse directly to https://purview.microsoft.com in a new browser tab.
 
-3. On the left side of the Azure Purview Governance Portal, use the **&rsaquo;&rsaquo;** icon to expand the menu - this reveals the different pages within the portal.
+3. On the left side of the Microsoft Purview Governance Portal, use the **&rsaquo;&rsaquo;** icon to expand the menu - this reveals the different pages within the portal.
 4. On the **Data map** page, on the **Data sources** sub-page, select **Register**:
 
-    ![Screenshot of the Data map page in the Microsoft Purview Governance Portal.](./images/purview-register.png)
+    ![Screenshot of the Data map page in the Microsoft Purview Governance Portal.](./pics/purview-data-map.png)
 
 5. In the **Register sources** tab that appears, select **Azure Synapse Analytics**, and continue to register a source with the following settings:
     - **Name**: Synapse_data
@@ -202,39 +202,49 @@ With Microsoft Purview, you can catalog data assets across your data estate - in
     - **Workspace name**: *Select your **synapsexxxxxxx** workspace*
     - **Dedicated SQL endpoint**: sql*xxxxxxx*.sql.azuresynapse.net
     - **Serverless SQL endpoint**: sql*xxxxxxx*-ondemand.sql.azuresynapse.net
-    - **Select a collection**: Root (purview*xxxxxxx*)
+    - **Domain**: purview-xxxxxx
+    - **Collection**: Select domain only
 
     This data source includes the SQL databases in your Azure Synapse Analytics workspace.
 
 6. After registering the **Synapse_data** source, select **Register** again, and register a second source for the data lake storage used by your Azure Synapse workspace. Select **Azure Data Lake Storage Gen2**, and specify the following settings:
     - **Name**: Data_lake
     - **Azure subscription**: *Select your Azure subscription*
-    - **Workspace name**: *Select your **datalakexxxxxxx** storage account*
+    - **Storage account name**: *Select your **datalakexxxxxxx** storage account*
     - **Endpoint**: https:/ /datalakexxxxxxx.dfs.core.windows.net/
-    - **Select a collection**: Root (purview*xxxxxxx*)
-    - **Data use management**: Disabled
+    - **Domain**: purview-xxxxxx
+    - **Collection**: Select domain only
+    - **Data policy enforcement**: Disabled
 
     After registering both the **Synapse_data** and **Data_lake** sources, they should both be displayed under the **purview*xxxxxxx*** root collection in the data map as shown here:
 
-    ![A screenshot of the data map, showing the Synapse_data source.](./images//purview-data-map.png)
+    ![A screenshot of the data map, showing the Synapse_data source.](./pics/purview-data-map-sources.png)
 
 ### Scan registered sources
 
 1. In the data map, in the **Synapse_data** source, select **View details**; and observe that the source has no assets cataloged. You will need to scan the source to find the data assets it contains.
-2. In the **Synapse_data** details page, select **New scan**, and then configure a scan with the following settings:
+    ![A screenshot of the data map, showing the data source detail page](./pics/purview-datasource-details.png)
+1. In the **Synapse_data** details page, select **New scan**, and then configure a scan with the following settings:
     - **Name**: Scan-Synapse
     - **Connect to integration runtime**: Azure AutoresolveIntegrationRuntime
     - **Type**: SQL Database
     - **Credential**: Microsoft Purview MSI (system)
     - **SQL Database**: *Select <u>both</u> the **sqlxxxxxxx** dedicated database and the **lakedb** serverless database.*
-    - **Select a collection**: Root (purview*xxxxxxx*)
+    - **Scan level**: Autodetect
+    - **Domain**: purview-xxxxxx
+    - **Collection**: Select domain only
 
-    ![A screenshot of the New scan pane.](./images/purview-scan.png)
+    ![A screenshot of the New scan pane.](./pics/purview-scan-data.png)
 
-3. Continue to the **Select a scan rule set** page, on which the default **AzureSynapseSQL** rule set should be selected.
-4. Continue to the **Set a scan trigger** page, and select **Once** to run the scan one-time.
-4. Continue to the **Review your scan** page, and then save and run the scan.
-6. While the **Synapse_data** scan is running, return to the **Sources** page to view the data map, and in the **Data_lake** source use the **New scan** icon to start a scan of the data lake with the following settings:
+1. Press **Test connection** button to validate connectivity.
+1. If connection test failed, press **View report** to see details
+    ![A screenshot of the failed connection test](./pics/purview-connection-failed.png)
+1. Review the error details and apply fix if suggested. Most likely you did not grant **Reader** permissions to Synapse Analytics workspace. Once fixed - test connection again.
+    ![A screenshot of the failed connection details](./pics/purview-connection-failed-details.png)
+1. Continue to the **Select a scan rule set** page, on which the default **AzureSynapseSQL** rule set should be selected.
+1. Continue to the **Set a scan trigger** page, and select **Once** to run the scan one-time.
+1. Continue to the **Review your scan** page, and then save and run the scan.
+1. While the **Synapse_data** scan is running, return to the **Sources** page to view the data map, and in the **Data_lake** source use the **New scan** icon to start a scan of the data lake with the following settings:
     - **Name**: Scan-Data-Lake
     - **Connect to integration runtime**: Azure AutoresolveIntegrationRuntime
     - **Credential**: Microsoft Purview MSI (system)
@@ -243,14 +253,16 @@ With Microsoft Purview, you can catalog data assets across your data estate - in
     - **Select a scan rule set**:  AdlsGen2
     - **Set a scan trigger**: Once
     - **Review your scan** Save and run
-7. Wait for both scans to complete - this may take several minutes. You can view the details page for each of the sources to see the **Last run status**, as shown below (you can use the **&#8635; Refresh** button to update the status). You can also view the **Monitoring** page (though it may take some time for the scans to appear there):
+1. Wait for both scans to complete - this may take several minutes. You can view the details page for each of the sources to see the **Last run status**, as shown below (you can use the **&#8635; Refresh** button to update the status). You can also use **Monitoring** section to check scan results.
 
-    ![A screenshot of the Synapse_data details with a completed scan.](./images/purview-scan-complete.png)
+    ![A screenshot of the Synapse_data details with a completed scan.](./pics/purview-finished-scan.png)
+1. If you navigate to the **Scans** tab, you'll see all scans history and can drill-down to each scan details.
+    ![Scan run details picture](./pics/purview-scan-run-history.png)
 
 ### View the scanned assets
 
-1. On the **Data catalog** page, on the **Browse** sub-page, select the **purview*xxxxxxx*** collection. Here you can see the data assets that were cataloged in your Azure Synapse Workspace and data lake storage, including the Azure Synapse Analytics workspace, the Azure Storage account for the data lake, the two SQL pool databases in Azure Synapse Analytics, the **dbo** schema in each database, the tables and views in the databases, and the folders and files in the data lake.
-2. To filter the results, in the **Narrow results by** list of object types, select **Files** and **Tables** so that only the files, tables, and views that were cataloged by the scan are listed:
+1. On the **Data Map** page, on the **Domains** section, select the **purview*xxxxxxx*** domain. It contains 0 collections as of now and you can create a new if necessary. Here you can see the data assets that were cataloged in your Azure Synapse Workspace and data lake storage, including the Azure Synapse Analytics workspace, the Azure Storage account for the data lake, the two SQL pool databases in Azure Synapse Analytics, the **dbo** schema in each database, the tables and views in the databases, and the folders and files in the data lake.
+1. To filter the results, in the **Narrow results by** list of object types, select **Files** and **Tables** so that only the files, tables, and views that were cataloged by the scan are listed:
 
     ![A screenshot of the Data catalog filtered to show only files and tables.](./images/purview-collection.png)
 

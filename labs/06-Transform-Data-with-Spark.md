@@ -25,7 +25,7 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
 1. Sign into the [Azure portal](https://portal.azure.com) at `https://portal.azure.com`.
 2. Use the **[\>_]** button to the right of the search bar at the top of the page to create a new Cloud Shell in the Azure portal, selecting a ***PowerShell*** environment and creating storage if prompted. The cloud shell provides a command line interface in a pane at the bottom of the Azure portal, as shown here:
 
-    ![Azure portal with a cloud shell pane](/labs/pics/cloudshell.png)
+    ![Azure portal with a cloud shell pane](./pics/cloudshell.png)
 
     > **Note**: If you have previously created a cloud shell that uses a *Bash* environment, use the the drop-down menu at the top left of the cloud shell pane to change it to ***PowerShell***.
 
@@ -66,11 +66,11 @@ In this exercise, you'll use a combination of a PowerShell script and an ARM tem
 10. Close the preview. Then download the **Spark Transform.ipynb** from [from labs/alldata/lab6/notebooks](https://github.com/dmitriysolovev/data-engineer/tree/main/labs/alldata/lab6/notebooks)
 
     > **Note**: It's best to copy this text using the ***ctrl+a*** then ***ctrl+c*** and pasting into a tool using ***ctrl+v***, such as, notepad and then using file, save as **Spark Transform.ipynb** with a filetype of ***all files***. You can also download the file by clicking on it, then selecting the ellipsis (...) and then download, remembering where you saved it.
-    ![Download Spark notebook from GitHub](/labs/pics/6-1-select-download-notebook.png)
+    ![Download Spark notebook from GitHub](./pics/6-1-select-download-notebook.png)
 
 11. Then on **Develop** page, expand **Notebooks** click on the + Import options
 
-    ![Spark Notebook import](/labs/pics/6-2-spark-notebook-import.png)
+    ![Spark Notebook import](./pics/6-2-spark-notebook-import.png)
         
 12. Select the file you just downloaded and saved as **Spark Transfrom.ipynb**.
 13. Attach the notebook to your **spark*xxxxxxx*** Spark pool.

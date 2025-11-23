@@ -21,7 +21,7 @@ To explore Azure Synapse Link for Azure Cosmos DB, you'll need an Azure Synapse 
 1. Sign into the [Azure portal](https://portal.azure.com) at `https://portal.azure.com`.
 2. Use the **[\>_]** button to the right of the search bar at the top of the page to create a new Cloud Shell in the Azure portal, selecting a ***PowerShell*** environment and creating storage if prompted. The Cloud Shell provides a command line interface in a pane at the bottom of the Azure portal, as shown here:
 
-    ![Azure portal with a cloud shell pane](/labs/pics/cloudshell.png)
+    ![Azure portal with a cloud shell pane](./pics/cloudshell.png)
 
     > **Note**: If you have previously created a cloud shell that uses a *Bash* environment, use the the drop-down menu at the top left of the cloud shell pane to change it to ***PowerShell***.
 
@@ -64,7 +64,7 @@ Before you can use Synapse Link for Azure Cosmos DB, you must enable it in your 
 
 3. At the top of the **Data Explorer** page, use the **Enable Azure Synapse Link** button to enable Synapse Link.
 
-    ![Cosmos DB Data Explorer with Enable Azure Synapse Link button highlighted](/labs/pics/cosmos-enable-synapse-link.png)
+    ![Cosmos DB Data Explorer with Enable Azure Synapse Link button highlighted](./pics/cosmos-enable-synapse-link.png)
 
 4. On the left side of the page, in the **Integrations** section, select the **Azure Synapse Link** page and verify that the status of the account is *Enabled*.
 
@@ -83,7 +83,7 @@ Before you can use Synapse Link for Azure Cosmos DB, you must enable it in your 
 
 2. After the container has been created, in the **Data Explorer** page, expand the **AdventureWorks** database and its **Sales** folder; and then select the **Items** folder.
 
-    ![The Adventure Works, Sales, Items folder in Data Explorer](/labs/pics/cosmos-items-folder.png)
+    ![The Adventure Works, Sales, Items folder in Data Explorer](./pics/cosmos-items-folder.png)
 
 3. Use the **New Item** button to create a new customer item based on the following JSON. Then save the new item (some additional metadata fields will be added when you save the item).
 
@@ -148,7 +148,7 @@ Now that you have prepared your Azure Cosmos DB account, you can configure Azure
 4. On the **Data** page, view the **Linked** tab. Your workspace should already include a link to your Azure Data Lake Storage Gen2 storage account, but no link to your Cosmos DB account.
 5. In the **+** menu, select **Connect to external data**, and then select **Azure Cosmos DB for NoSQL**.
 
-    ![Adding an Azure Cosmos DB NoSQl API external data link](/labs/pics/add-cosmos-db-link.png)
+    ![Adding an Azure Cosmos DB NoSQl API external data link](./pics/add-cosmos-db-link.png)
 
 6. Continue, and create a new Cosmos DB connection with the following settings:
     - **Name**: AdventureWorks
@@ -163,7 +163,7 @@ Now that you have prepared your Azure Cosmos DB account, you can configure Azure
 7. After creating the connection, use the **&#8635;** button at the top right of the **Data** page to refresh the view until an **Azure Cosmos DB** category is listed in the **Linked** pane.
 8. Expand the **Azure Cosmos DB** category to see the **AdventureWorks** connection you created and the **Sales** container it contains.
 
-    ![Adding an Azure Cosmos DB SQl API external data link](/labs/pics/cosmos-linked-connection.png)
+    ![Adding an Azure Cosmos DB SQl API external data link](./pics/cosmos-linked-connection.png)
 
 ## Query Azure Cosmos DB from Azure Synapse Analytics
 
