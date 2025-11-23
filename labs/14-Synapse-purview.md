@@ -340,7 +340,7 @@ You've used a Synapse pipeline to load data into a database. Let's verify that t
     - Select the **Monitor** tab and **Pipeline runs** in the **Integration** section.
     - Drill down to the recent pipeline run and check the **Linage status**. Most likely it shows an error. This error might be a transcient. We don't troubleshoot it as a part of the lab.
     ![Pipeline linage](./pics/synapse-purview-linage.png)
-    - In case of error you can run Synapse scan in the **Purview** portal once again. Upon the scan completion you'll be able to see pipeline in the linage.
+    
 1. Select the **Copy_*xxx*** asset to view its details, noting the **Updated time** reflects the recent pipeline run.
 1. On the **Lineage** tab for the **Copy_*xxx*** asset, view the diagram showing the data flow from the **products.csv** file to the **products** table
 1. In the **Copy_*xxx*** lineage diagram, select the **products.csv** file and use its **Switch to asset** link to view details of the source file.
