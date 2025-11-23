@@ -111,7 +111,7 @@ As in many Spark environments, Databricks supports the use of notebooks to combi
 
 1. In the sidebar, use the **(+) New** link to create a **Notebook**.
 1. Change the default notebook name (**Untitled Notebook *[date]***) to **Explore products** and in the **Connect** drop-down list, select your cluster if it is not already selected. If the cluster is not running, it may take a minute or so to start.
-1. Download the [**products.csv**](https://raw.githubusercontent.com/dmitriysolovev/data-engineer/main/labs/alldata/lab14/data/products.csv) file to your local computer, saving it as **products.csv**. Then, in the **Explore products** notebook, on the **File** menu, select **Upload data to volume**.
+1. Download the [**products.csv**](https://raw.githubusercontent.com/dmitriysolovev/data-engineer/main/labs/alldata/lab15/data/products.csv) file to your local computer, saving it as **products.csv**. Then, in the **Explore products** notebook, on the **File** menu, select **Upload data to volume**.
 1. In the **Upload Data** dialog box:
     - In the **All catalogs** section select **dp203_databricks** (or another name similar to your databricks resourse name) and then select **Default**
     ![Upload file dialog](./pics/databricks-uploadfile.png)
