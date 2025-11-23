@@ -261,10 +261,13 @@ With Microsoft Purview, you can catalog data assets across your data estate - in
 
 ### View the scanned assets
 
-1. On the **Data Map** page, on the **Domains** section, select the **purview*xxxxxxx*** domain. It contains 0 collections as of now and you can create a new if necessary. Here you can see the data assets that were cataloged in your Azure Synapse Workspace and data lake storage, including the Azure Synapse Analytics workspace, the Azure Storage account for the data lake, the two SQL pool databases in Azure Synapse Analytics, the **dbo** schema in each database, the tables and views in the databases, and the folders and files in the data lake.
+1. On the **Unified Catalog** page, in the the **Discovery** section, select the **Data Assets**. This is an entry page used to explore scanned assets. Click on the **Explore by collection** button to explore your data.
+    ![Discovery data assets](./pics/purview-uc-assets.png)
+
+1.  Click on the **purview*xxxxxxx*** collection to drill down to the assets.  Here you can see the data assets that were cataloged in your Azure Synapse Workspace and data lake storage, including the Azure Synapse Analytics workspace, the Azure Storage account for the data lake, the two SQL pool databases in Azure Synapse Analytics, the **dbo** schema in each database, the tables and views in the databases, and the folders and files in the data lake.
 1. To filter the results, in the **Narrow results by** list of object types, select **Files** and **Tables** so that only the files, tables, and views that were cataloged by the scan are listed:
 
-    ![A screenshot of the Data catalog filtered to show only files and tables.](./images/purview-collection.png)
+    ![A screenshot of the Data catalog filtered to show only files and tables.](./pics/purview-explore-collection.png)
 
     Note that the data assets include:
 
@@ -272,7 +275,7 @@ With Microsoft Purview, you can catalog data assets across your data estate - in
     - **products.csv** - a file in the data lake.
     - **products_csv** - a view in the serverless SQL pool that reads product data from the *products.csv* file.
 
-3. Explore the assets that were found by selecting them and viewing their properties and schema. You can edit the properties of the assets (including individual fields) to add metadata, categorizations, contact details for subject-matter experts, and other useful details so that data analysts can find a lot of information about the data assets in your data estate by exploring them in the Microsoft Purview data catalog.
+1. Explore the assets that were found by selecting them and viewing their properties and schema. You can edit the properties of the assets (including individual fields) to add metadata, categorizations, contact details for subject-matter experts, and other useful details so that data analysts can find a lot of information about the data assets in your data estate by exploring them in the Microsoft Purview data catalog.
 
 So far, you've used Microsoft Purview to catalog data assets in your Azure Synapse Analytics workspace. You can register multiple kinds of data source in a Microsoft Purview catalog, enabling you to create a central, consolidated view of data assets.
 
@@ -285,20 +288,22 @@ Azure Synapse Analytics supports integration with Microsoft Purview to make data
 ### Enable Microsoft Purview integration in Azure Synapse Analytics
 
 1. Switch back to the browser tab containing Synapse Studio, and on the **Manage** page, select the **Microsoft Purview** tab, and then use the **Connect to a Purview account** button to connect the **purview*xxxxxxx*** account in your subscription to the workspace.
-2. After connecting the account, view the **Purview account** tab to verify that the account is has a **Data Lineage - Synapse Pipeline** status of **Connected**:
+1. After connecting the account, view the **Purview account** tab to verify that the account is has a **Data Lineage - Synapse Pipeline** status of **Connected**:
 
-    ![A screenshot showing the Purview account in Synapse Studio.](./images/synapse-purview.png)
+    ![A screenshot showing the Purview account in Synapse Studio.](./pics/purview-synapse.png)
 
 ### Search the Purview catalog in Synapse Studio
 
 Now that you've connected your Microsoft Purview account to your Azure Synapse Analytics workspace, you can search the catalog from Synapse Studio, enabling you to discover data assets across your data estate.
 
 1. In Synapse Studio, view the **Integrate** page.
-2. At the top of the page, use the **Search** box at the top to search the **Purview** source for the term "products", as shown here:
+1. At the top of the page, use the **Search** box at the top to search the **Purview** source for the term "products", as shown here:
 
-    ![Screenshot of the search box in Synapse Studio searching Purview.](./images/synapse-search-purview.png)
+    ![Screenshot of the search box in Synapse Studio searching Purview.](./pics/purview-synapse-search.png)
 
-3. In the results, select **products.csv** to view its details from the Purview catalog.
+1. In the results, select **products.csv** to view its details from the Purview catalog.
+
+    ![Purview asset details in synapse](./pics/purview-synapse-asset-page.png)
 
 By integrating the Purview catalog into the Synapse Studio interface, data analysts and engineers can find and examine registered data assets from across the entire data estate (not just within the Azure Synapse Studio workspace).
 
@@ -328,15 +333,18 @@ The **products_csv** view in the **lakedb** database is based on a text file in 
 You've used a Synapse pipeline to load data into a database. Let's verify that this activity has been tracked in Microsoft Purview.
 
 1. Switch to the browser tab containing the Microsoft Purview Governance Portal.
-2. On the **Data catalog** page, on the **Browse** sub-page, select the **purview*xxxxxxx*** collection.
-3. Filter the assets to show only **Data pipelines**, **Files**, and **Tables**. The list of assets should include the **products.csv** file, the **Copy_*xxx*** pipeline activity, and the **products** table.
-4. Select the **Copy_*xxx*** asset to view its details, noting the **Updated time** reflects the recent pipeline run.
-5. On the **Lineage** tab for the **Copy_*xxx*** asset, view the diagram showing the data flow from the **products.csv** file to the **products** table:
-
-    ![A screenshot of the Lineage tab for a pipeline asset, showing the source and target.](./images/purview-lineage.png)
-
-6. In the **Copy_*xxx*** lineage diagram, select the **products.csv** file and use its **Switch to asset** link to view details of the source file.
-7. In the **products.csv** lineage diagram, select the **products** table and use its **Switch to asset** link to view details of the table (you may need to use the **&#8635; Refresh** button to see the table lineage diagram).
+1. On the **Unified catalog** page, on the **Discovery** -> **Data Assets** sub-page, navigate to the **Explore by collection** and then to the **purview*xxxxxxx*** collection.
+1. Filter the assets to show only **Data pipelines**, **Files**, and **Tables**. The list of assets should include the **products.csv** file, the **Copy_*xxx*** pipeline activity, and the **products** table.
+1. If you don't see the pipeline activity in the Assets:
+    - Switch to the browser tab containing Azure Synapse Workspace 
+    - Select the **Monitor** tab and **Pipeline runs** in the **Integration** section.
+    - Drill down to the recent pipeline run and check the **Linage status**. Most likely it shows an error. This error might be a transcient. We don't troubleshoot it as a part of the lab.
+    ![Pipeline linage](./pics/synapse-purview-linage.png)
+    - In case of error you can run Synapse scan in the **Purview** portal once again. Upon the scan completion you'll be able to see pipeline in the linage.
+1. Select the **Copy_*xxx*** asset to view its details, noting the **Updated time** reflects the recent pipeline run.
+1. On the **Lineage** tab for the **Copy_*xxx*** asset, view the diagram showing the data flow from the **products.csv** file to the **products** table
+1. In the **Copy_*xxx*** lineage diagram, select the **products.csv** file and use its **Switch to asset** link to view details of the source file.
+1. In the **products.csv** lineage diagram, select the **products** table and use its **Switch to asset** link to view details of the table (you may need to use the **&#8635; Refresh** button to see the table lineage diagram).
 
 The lineage tracking capability enabled by integrating Azure Synapse Analytics with Microsoft Purview enables you to determine how and when the data in your data stores was loaded, and where it came from.
 
