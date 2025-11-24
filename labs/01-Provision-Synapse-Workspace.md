@@ -3,7 +3,7 @@
 Please use Azure credentials dedicated for your lab environment. Estimated time to complete: **10** minutes.
 
 ---
-## 1. Validate if Synapse Resource provider is registered
+## 1. Validate if Microsoft.Synapse Resource provider is registered
 A resource provider is a collection of REST operations that enables functionality for an Azure service, for example Azure Synapse Analytics. In order to deploy a service related resource provider must be registered in the Azure Subscription. In most cases they are already registered, however it's worth to check. List of Reource providers for Azure analytics services is [there](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-services-resource-providers#analytics-resource-providers)
 
 You must have permission to do the /register/action operation for the resource provider. The permission is included in the Contributor and Owner roles. Reregister a resource provider when the resource provider.supports new locations that you need to use. More information can be found there [https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types)
@@ -20,14 +20,14 @@ You must have permission to do the /register/action operation for the resource p
 
 You successfully checked (registered) resource provider and can continue with the resource provisioning.
 
-## 1. Create a New Resource
+## 2. Create a New Resource
 
 1. Open the **Azure Portal** [https://portal.azure.com](https://portal.azure.com).
 2. At the top, click **Create a resource**.
 ![Provision Resource](./pics/1-0-create%20a%20resource.png)
 ---
 
-## 1. Search for Synapse
+## 3. Search for Synapse
 ![Search for Synapse](./pics/1-1-search-synapse.png)
 1. In the search bar, type **Synapse** and press **Enter**.
 2. From the search results, select **Azure Synapse Analytics**.
@@ -36,7 +36,7 @@ You successfully checked (registered) resource provider and can continue with th
 
 ---
 
-## 1. Configure Basics
+## 4. Configure Basics
 
 ### Resource Group
 - Create a new Resource Group.  
@@ -57,18 +57,18 @@ You successfully checked (registered) resource provider and can continue with th
 
 ### Data Lake Storage (Gen2)
 1. Choose **From Subscription**.
-2. Create:
+1. Create:
    - A new **Storage Account**. Use unique name. For example - Your initials lake storage. Name should not contain spaces.  
      Example: **dslakestorage**
    - A new **File System** named **synapsedata**
-3. Ensure the checkbox is selected:
+1. Ensure the checkbox is selected:
 
    > **Assign myself the Storage Blob Data Contributor role on the Data Lake Storage Gen2 account to interactively query it in the workspace**
 
 ![Synapse parameters](./pics/1-6-synapse-params-completed.png)
 ---
 
-## 1. Configure Security
+## 5. Configure Security
 
 1. Click **Next: Security**.
 2. Select:
@@ -79,7 +79,7 @@ You successfully checked (registered) resource provider and can continue with th
 ![Security tab Synapse](./pics/1-7-synapse-security.png)
 ---
 
-## 1. Configure Networking
+## 6. Configure Networking
 
 1. Click **Next: Networking**.
 2. Review network options.
@@ -88,7 +88,7 @@ You successfully checked (registered) resource provider and can continue with th
 ![Networking tab Synapse](./pics/1-7-synapse-networking.png)
 ---
 
-## 1. Deploy Workspace
+## 7. Deploy Workspace
 
 - Click **Create** to start deployment.
 - Deployment will take **5–10 minutes**.
